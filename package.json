@@ -1,0 +1,20 @@
+{
+  "name": "d3-meetup",
+  "version": "0.1.0",
+  "dependencies": {
+    "d3": "^3.5.5"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-uglify": "^0.11.0",
+    "jasmine-core": "^2.3.4",
+    "jasmine-jquery": "^2.0.6",
+    "jquery": "^2.1.4",
+    "karma": "^0.13.15",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-jasmine": "^0.3.6",
+    "karma-requirejs": "^0.2.2",
+    "requirejs": "^2.1.17"
+  }
+}
