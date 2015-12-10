@@ -1,7 +1,7 @@
 define(['jquery', 'd3', 'src/chart/bar'], function($, d3, chart) {
     'use strict';
 
-    describe('Bar Chart Tests', function(){
+    describe('Bar Chart with accessors', function(){
         var barChart, dataset, containerFixture, f;
 
         beforeEach(function() {
@@ -181,6 +181,18 @@ define(['jquery', 'd3', 'src/chart/bar'], function($, d3, chart) {
 
             expect(defaultHeight).not.toBe(testHeight);
             expect(newHeight).toBe(testHeight);
+        });
+
+        it('should provide gap getter and setter', function() {
+            var defaultHeight = barChart.gap(),
+                testGap = 10,
+                newGap;
+
+            barChart.height(testGap);
+            newGap = barChart.height();
+
+            expect(defaultHeight).not.toBe(testGap);
+            expect(newGap).toBe(testGap);
         });
 
     });
