@@ -26,6 +26,11 @@ define(function(require){
             xScale, yScale,
             xAxis, yAxis,
             svg,
+
+            // Dispatcher object to broadcast the 'customHover' event
+            // Ref: https://github.com/mbostock/d3/wiki/Internals#d3_dispatch
+            dispatch = d3.dispatch('customHover'),
+
             // extractors
             getLetter = function(d) { return d.letter; },
             getFrequency = function(d) { return d.frequency; };
@@ -147,7 +152,10 @@ define(function(require){
                     x: chartWidth, // Initially drawing the bars at the end of Y axis
                     y: function(d) { return yScale(d.frequency); },
                     height: function(d) { return chartHeight - yScale(d.frequency); }
-                });
+                })
+                // This is basically saying: when mouse hovers a bar,
+                // trigger the customHover event in the dispatch object
+                .on('mouseover', dispatch.customHover);
 
             // Update
             bars
@@ -198,6 +206,12 @@ define(function(require){
             height = _x;
             return this;
         };
+
+        // Copies the method "on" from dispatch to exports, making it accesible
+        // from outside
+        //
+        // Reference: https://github.com/mbostock/d3/wiki/Internals#rebind
+        d3.rebind(exports, dispatch, "on");
 
         return exports;
     };

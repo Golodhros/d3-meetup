@@ -1,7 +1,7 @@
 define(['jquery', 'd3', 'src/chart/bar'], function($, d3, chart) {
     'use strict';
 
-    describe('Bar Chart Tests', function(){
+    describe('Bar Chart with Tooltip', function(){
         var barChart, dataset, containerFixture, f;
 
         beforeEach(function() {
@@ -181,6 +181,25 @@ define(['jquery', 'd3', 'src/chart/bar'], function($, d3, chart) {
 
             expect(defaultHeight).not.toBe(testHeight);
             expect(newHeight).toBe(testHeight);
+        });
+
+        describe('on hovering a bar', function() {
+
+            beforeEach(function() {
+                this.callbackSpy = jasmine.createSpy("callback");
+
+                barChart.on('customHover', this.callbackSpy);
+            });
+
+            it('should trigger a callback', function() {
+                var bars = containerFixture.selectAll('.bar');
+
+                bars[0][0].__onmouseover();
+
+                expect(this.callbackSpy).toHaveBeenCalled();
+                // arguments: data, index, ?(always 0)
+                expect(this.callbackSpy).toHaveBeenCalledWith(dataset[0], 0, 0);
+            });
         });
 
     });
