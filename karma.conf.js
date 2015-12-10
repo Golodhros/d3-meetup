@@ -21,7 +21,7 @@ module.exports = function(config) {
       {pattern: 'node_modules/d3/d3.js', included: false},
       {pattern: 'src/chart/*.js', included: false},
       {pattern: 'jasmine*.js', included: false},
-      {pattern: 'test/specs/*.js', included: false},
+      {pattern: 'test/specs/*.js', watched: true, included: false},
       {pattern: 'test/fixtures/*.json', watched: true, served: true, included: false},
       {pattern: 'test/fixtures/*.html', watched: true, served: true, included: false}
     ],

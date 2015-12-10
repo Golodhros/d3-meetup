@@ -12,6 +12,7 @@ One of the less forgiving and pleasant tasks when trying to setup your own chart
 * D3
 * Jasmine
 * Karma
+* RequireJS
 * Jasmine helpers for Karma
 * Jasmine jQuery helpers
 
