@@ -18,8 +18,6 @@ define(function(require){
     return function module(){
 
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
-            width = 960,
-            height = 500,
             gap = 2,
             data,
             chartWidth, chartHeight,
@@ -30,16 +28,21 @@ define(function(require){
             getLetter = function(d) { return d.letter; },
             getFrequency = function(d) { return d.frequency; };
 
+        var publicAttributes = {
+            width: 960,
+            height: 500
+        };
+
         /**
          * This function creates the graph using the selection as container
          * @param  {D3Selection} _selection A d3 selection that represents
          * the container(s) where the chart(s) will be rendered
          */
-        function exports(_selection){
+        function chart(_selection){
             /* @param {object} _data The data to attach and generate the chart */
             _selection.each(function(_data){
-                chartWidth = width - margin.left - margin.right;
-                chartHeight = height - margin.top - margin.bottom;
+                chartWidth = chart.width() - margin.left - margin.right;
+                chartHeight = chart.height() - margin.top - margin.bottom;
                 data = _data;
 
                 buildScales();
@@ -94,7 +97,7 @@ define(function(require){
             yScale = d3.scale.linear()
                 .domain([0, d3.max(data, getFrequency)])
                 .range([chartHeight, 0]);
-        }
+      }
 
         /**
          * @param  {HTMLElement} container DOM element that will work as the container of the graph
@@ -109,8 +112,8 @@ define(function(require){
                 buildContainerGroups();
             }
             svg.transition().attr({
-                width: width + margin.left + margin.right,
-                height: height + margin.top + margin.bottom
+                width: chart.width() + margin.left + margin.right,
+                height: chart.height() + margin.top + margin.bottom
             });
         }
 
@@ -169,37 +172,27 @@ define(function(require){
          * @return { margin | module} Current margin or Bar Chart module to chain calls
          * @public
          */
-        exports.margin = function(_x) {
+        chart.margin = function(_x) {
             if (!arguments.length) return margin;
             margin = _x;
             return this;
         };
 
-        /**
-         * Gets or Sets the width of the chart
-         * @param  {number} _x Desired width for the graph
-         * @return { width | module} Current width or Bar Chart module to chain calls
-         * @public
-         */
-        exports.width = function(_x) {
-            if (!arguments.length) return width;
-            width = _x;
-            return this;
-        };
+        function generateAttrAccessor(attr) {
+            return function(_x) {
+                if (!arguments.length) return publicAttributes[attr];
+                publicAttributes[attr] = _x;
+                return this;
+            };
+        }
 
-        /**
-         * Gets or Sets the height of the chart
-         * @param  {number} _x Desired width for the graph
-         * @return { height | module} Current height or Bar Char module to chain calls
-         * @public
-         */
-        exports.height = function(_x) {
-            if (!arguments.length) return height;
-            height = _x;
-            return this;
-        };
+        for (var attr in publicAttributes) {
+            if( publicAttributes.hasOwnProperty(attr) && !chart[attr]) {
+                chart[attr] = generateAttrAccessor(attr);
+            }
+        }
 
-        return exports;
+        return chart;
     };
 
 });
